@@ -1,0 +1,180 @@
+﻿<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>A Dança de Fuga</title>
+		<script src="Framework/Vector2D.js"></script>
+		<script src="Framework/GameImage.js"></script>
+		<script src="Framework/GameObject.js"></script>
+		<script src="Framework/GameButton.js"></script>
+		<script src="Framework/GameRectangle.js"></script>
+		<script src="Framework/BoundingBox.js"></script>
+		<script src="Framework/GameManager.js"></script>
+		<script src="Framework/SceneManager.js"></script>
+		<script src="Framework/MusicPlayer.js"></script>
+
+		<script src="GameScenes/SplashScene.js"></script>
+		<script src="GameScenes/TitleScene.js"></script>
+		<script src="GameScenes/CutScenesScene.js"></script>
+		<script src="GameScenes/PlayGameScene.js"></script>
+		<script src="GameScenes/GameOverScene.js"></script>
+
+		<script src="GameComponents/Player.js"></script>
+		<script src="GameComponents/Indian.js"></script>
+		<script src="GameComponents/CPUIndian.js"></script>
+		<script src="GameComponents/Drummers.js"></script>
+		<script src="GameComponents/Chief.js"></script>
+
+		<style>
+			canvas {
+				position: absolute;
+				top: 0px;
+				bottom: 0px;
+				left: 0px;
+				right: 0px;
+				height: 100%;
+			}
+		</style>
+
+        <script>
+            (function (i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+            ga('create', 'UA-80512837-1', 'auto');
+            ga('send', 'pageview');
+
+        </script>
+
+	</head>
+	<body>
+		<script>
+			//variáveis globais
+			var CTX, HEIGHT, WIDTH, MOUSEPOSITION = new Vector2D(-1000,-1000), MOUSECLICK = false, SECS = 0.016;
+			var KEYS = {Left: false,
+						Up: false,
+						Right: false,
+						Down: false};
+
+			var GAME_MANAGER = new GameManager();
+			GAME_MANAGER.startScene(SceneManager.GameScene.SPLASH);
+
+			var cursor;
+
+			var windowScale
+
+			lastTime = Date.now();
+			timestamp = 0;
+
+			function updateMousePosition(canvas, evt) {
+		        var rect = canvas.getBoundingClientRect();
+
+		        MOUSEPOSITION.x = (evt.clientX - rect.left) * windowScale;
+		        MOUSEPOSITION.y = (evt.clientY - rect.top) * windowScale;
+		    }
+
+		    function updateMouseClick(canvas, evt) {
+		    	cursor.setImageFrame(1);
+		        MOUSECLICK = true;
+		    }
+
+		    function updateMouseUp(canvas, evt) {
+		    	cursor.setImageFrame(0);
+		    }
+
+		    function updateKeyDown(canvas, evt) {
+		    
+				if(evt.keyCode == 37) {
+			        KEYS.Left = true;
+			    }
+			    if(evt.keyCode == 38) {
+			        KEYS.Up = true;
+			    }
+			    if(evt.keyCode == 39) {
+			        KEYS.Right = true;
+			    }
+			    if(evt.keyCode == 40) {
+			        KEYS.Down = true;
+			    }
+			}
+
+			document.addEventListener('keydown', function(evt) {
+				updateKeyDown(canvas, evt)
+			});
+
+			function main() {
+
+				WIDTH = 1024;
+				HEIGHT = 768;
+
+
+				windowScale = Math.max(768 / window.innerHeight, 1024 / window.innerWidth);
+				
+				canvas = document.createElement("canvas");
+				canvas.width = WIDTH;
+				canvas.height = HEIGHT;
+
+				//sumir com o cursor do mouse para colocar um personalizado
+				canvas.style.cursor = "none";
+				cursor = new GameImage("Assets/img/Common-Cursor.png", 55, 156, 55, 78, new Vector2D(0, 0), 0);
+				cursor.setAnchorPoint(new Vector2D(-27, -36));
+
+
+				canvas.addEventListener('mousemove', function(evt) {
+				    updateMousePosition(canvas, evt);
+			  	}, false);
+			  	canvas.addEventListener('mousedown', function(evt) {
+				    updateMouseClick(canvas, evt);
+			  	}, false);
+			  	canvas.addEventListener('mouseup', function(evt) {
+				    updateMouseUp(canvas, evt);
+			  	}, false);
+			  	
+
+				CTX = canvas.getContext("2d");
+				document.body.appendChild(canvas);
+				document.addEventListener("mousedown", updateMouseClick);				
+				
+				run()
+			}
+			function run() {
+
+				// timestamp = Date.now() - lastTime;
+				// lastTime = Date.now();
+				// SECS = timestamp / 1000;
+
+				// if (SECS > 0.030) {SECS = 0.030};
+
+				update();
+				draw();
+
+				window.requestAnimationFrame(run)
+			}
+			function update() {
+
+				cursor.getPosition().x = MOUSEPOSITION.x;
+				cursor.getPosition().y = MOUSEPOSITION.y;
+
+				GAME_MANAGER.update();
+
+				MOUSECLICK = false;
+				KEYS.Left = false;
+				KEYS.Up = false;
+				KEYS.Right = false;
+				KEYS.Down = false;
+			}
+			function draw() {
+				GAME_MANAGER.draw();
+
+				cursor.draw();
+			}
+
+			//inicializa o jogo
+			main();
+
+		</script>
+	</body>
+</html>

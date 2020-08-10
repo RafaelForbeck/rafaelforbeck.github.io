@@ -1,0 +1,201 @@
+﻿body {
+    background-color: black;
+    color: white;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+label{
+    display: table;
+    line-height: 15px;
+    margin: 0 auto;
+}
+
+#principal{
+    width: 1024px;
+    height: 768px;
+    background-color: #4cff00
+}
+
+#painel{
+    float:left;
+    width: 750px;
+    height: 100px;
+    background-color: #1a1a1a
+}
+
+#passos{
+    float:right;
+    width: 274px;
+    height: 700px;
+    background-color: #262626
+}
+
+#matriz{
+    float: left;
+    width: 750px;
+    height: 600px;
+    background-color: #2e2e2e
+}
+
+#status{
+    float: left;
+    width: 750px;
+    height: 68px;
+    background-color: #1a1a1a
+}
+
+#acoes{
+    float: right;
+    width: 274px;
+    height: 68px;
+    background-color: #222222;
+}
+
+.botao{
+    background-color: #454545;
+}
+
+.botao:hover{
+    background-color: #727272;
+}
+
+.botao-painel{
+    float:left;
+    display: table;
+    margin: 10px;
+    padding: 10px;
+}
+
+.titulo-botao{
+    display:flex;
+}
+
+.botao-acao{
+    float:left;
+    display: table;
+    font-size: 8pt;
+    margin: 10px;
+    padding: 10px;
+}
+.botao-ativo{
+    background-color: #727272;
+}
+
+.botao-inativo{
+    background-color: #373737;
+    color:#727272;
+}
+
+.botao-inativo:hover{
+    background-color: #373737;
+    color:#727272;
+}
+
+.centralizado{
+    margin: 0 auto;
+    display: table;
+}
+.legenda-botao{
+    float: left;
+    width:20px;
+    height: 20px;
+    margin-right:10px;
+}
+
+
+.verde{
+    background-color: #4cff00;
+}
+.vermelho{
+    background-color: #ff0000;
+}
+.preto{
+    background-color: black;
+}
+
+.instrucoes {
+    font-size: 9pt;
+    text-indent: 20px;
+}
+
+.alerta{
+    color: #ff0000;
+}
+
+.celula{
+    float: left;
+    width: 75px;
+    height: 75px;
+    background-color: #2e2e2e;
+    font-size: 9pt;
+    color: #9d9d9d;
+}
+.alternada{
+    background-color: #2a2a2a;
+}
+
+.celula-close{
+    background-color: #231111;
+}
+
+.celula-caminho{
+    background-color: #004094;
+}
+
+.celula-inicio{
+    background-color: #278400;
+    color: white;
+}
+
+.celula-destino{
+    background-color: #a70000;
+    color: white;
+}
+.celula-obstaculo{
+    background-color: black;
+    color: #262626;
+}
+
+.celula-current{
+    background-color: #543400;
+}
+
+.titulo{
+    margin:10px;
+    font-size: 18pt;
+}
+
+.passos{
+    margin:10px;
+    font-size: 10pt;
+}
+
+.subpasso1{
+    padding-left:10px;
+}
+
+.subpasso2{
+    padding-left:20px;
+}
+
+.subpasso3{
+    padding-left:30px;
+}
+
+.pre{
+    color: #4cff00;
+}
+
+.pos{
+    color: #ff0000;
+}
+
+.status{
+    display: block;
+    font-size: 8pt;
+    margin: 6px 0 0 8px;
+}
+
+.bold{
+    font-weight: bold;
+}

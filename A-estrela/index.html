@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Trabalho de IA - Pathfinding A*</title>
+    <link rel="stylesheet" type="text/css" href="Style.css" />
+    <script src="Matriz.js"></script>
+    <script src="Celula.js"></script>
+    <script src="MatrizSetup.js"></script>
+    <script src="Gerenciador.js"></script>
+    <script src="Utils.js"></script>
+</head>
+<body>
+    <div id="principal">
+        <div id="painel">
+            <div class="centralizado">
+                <div class="botao botao-painel botao-ativo" id="btnInicio" onclick="setStatus('INICIO')">
+                    <div class="legenda-botao verde"></div>
+                    <label class="titulo-botao">Definir inicio</label>
+                </div>
+                <div class="botao botao-painel" id="btnDestino" onclick="setStatus('DESTINO')">
+                    <div class="legenda-botao vermelho"></div>
+                    <label class="titulo-botao">Definir destino</label>
+                </div>
+                <div class="botao botao-painel" id="btnObstaculo" onclick="setStatus('OBSTACULO')">
+                    <div class="legenda-botao preto"></div>
+                    <label class="titulo-botao">Adicionar / remover obstaculos</label>
+                </div>
+                <p class="instrucoes" id="pInstrucoes">Click sobre uma célula para definir o ponto de início.</p>
+            </div>
+        </div>
+        <div id="passos">
+            <p class="titulo">Passos</p>
+            <div class="passos" id="passo1">1 - Adiciona o nó inicial à lista aberta</div>
+            <div class="passos" id="passo2">2 - Repetir</div>
+            <div class="passos subpasso1" id="passo2A">A - Procurar o nó que tenha o menor custo de F na lista aberta (open). Este é o nó corrente (current).</div>
+            <div class="passos subpasso1" id="passo2B">B - Mover o nó para a lista fechada (close).</div>
+            <div class="passos subpasso1" id="passo2C">C - Repetir para cada nó vizinho:</div>
+            <div class="passos subpasso2" id="passo2Ca">a - Ignorar se não der para passar ou se já estiver na close.</div>
+            <div class="passos subpasso2" id="passo2Cb">b - Caso contrário:</div>
+            <div class="passos subpasso3" id="passo2Cai">I - Se não estiver em open, coloque-o e faça o parent do nó apontar para o current. Grave F, G e H.</div>
+            <div class="passos subpasso3" id="passo2Caii">II - Se já estiver em open, veja se o caminho não é melhor. Ou seja, se G é menor. Se for, recalcule o parent, F, G e H.</div>
+            <div class="passos subpasso1" id="passo2D">D - Interrompa o processo quando:</div>
+            <div class="passos subpasso2" id="passo2Da">a - Achou! Quadrado alvo está na close.</div>
+            <div class="passos subpasso2" id="passo2Db">b - Não achou - open vazia.</div>
+            <div class="passos" id="passo3">3 - Gerar o caminho usando os parent.</div>
+        </div>
+        <div id="matriz">
+
+        </div>
+        <div id="status">
+            <label class="status" id="lblCurrent">Current:</label>
+            <label class="status" id="lblOpen">Open</label>
+            <label class="status" id="lblClose">Close</label>
+        </div>
+        <div id="acoes">
+            <div class="centralizado">
+                <div class="botao botao-acao botao-inativo" id="btnProximo" onclick="ProximoPasso()">
+                    <label>Próximo passo</label>
+                </div>
+                <div class="botao botao-acao" id="btnGoGoGo" onclick="window.setInterval(function () {ProximoPasso();}, 50);" style="display:none;">
+                    <label>GO GO GO!</label>
+                </div>
+                <div class="botao botao-acao" onclick="location.reload();">
+                    <label>Reiniciar</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

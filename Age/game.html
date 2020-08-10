@@ -1,0 +1,165 @@
+﻿<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Trabalho de IA</title>
+		<script src="Framework/Vector2D.js"></script>
+		<script src="Framework/GameImage.js"></script>
+		<script src="Framework/GameObject.js"></script>
+		<script src="Framework/GameButton.js"></script>
+		<script src="Framework/GameRectangle.js"></script>
+		<script src="Framework/BoundingBox.js"></script>
+		<script src="Framework/SceneManager.js"></script>
+		<script src="Framework/Circle.js"></script>
+
+		<script src="GameScenes/TitleScene.js"></script>
+		<script src="GameScenes/PlayGameScene.js"></script>
+
+		<script src="GameComponents/GameManager.js"></script>
+		<script src="GameComponents/Player.js"></script>
+		<script src="GameComponents/Archer.js"></script>
+		<script src="GameComponents/Arrow.js"></script>
+
+
+		<style>
+			canvas {
+				position: absolute;
+				top: 0px;
+				bottom: 0px;
+				left: 0px;
+				right: 0px;
+				height: 100%;
+			}
+		</style>
+
+	</head>
+	<body oncontextmenu="return false;">
+		<script>
+			//variáveis globais
+			var CTX, HEIGHT, WIDTH, MOUSEPOSITION = new Vector2D(-1000,-1000), MOUSELEFTCLICK = false, MOUSERIGHTCLICK = false, SECS = 0.016;
+			var KEYS = {Left: false,
+						Up: false,
+						Right: false,
+						Down: false};
+
+			var GAME_MANAGER = new GameManager();
+			GAME_MANAGER.startScene(SceneManager.GameScene.TITLE);
+
+			var cursor;
+
+			var windowScale
+
+			lastTime = Date.now();
+			timestamp = 0;
+
+			function updateMousePosition(canvas, evt) {
+		        var rect = canvas.getBoundingClientRect();
+
+		        MOUSEPOSITION.x = (evt.clientX - rect.left) * windowScale;
+		        MOUSEPOSITION.y = (evt.clientY - rect.top) * windowScale;
+		    }
+
+		    function updateMouseClick(canvas, evt) {
+		    	if(evt.button == 0)
+		        	MOUSELEFTCLICK = true;
+		        if(evt.button == 2)
+		        	MOUSERIGHTCLICK = true;
+		    }
+
+		    function updateMouseUp(canvas, evt) {
+		    	cursor.setImageFrame(0);
+		    }
+
+		    function updateKeyDown(canvas, evt) {
+		    
+				if(evt.keyCode == 37) {
+			        KEYS.Left = true;
+			    }
+			    if(evt.keyCode == 38) {
+			        KEYS.Up = true;
+			    }
+			    if(evt.keyCode == 39) {
+			        KEYS.Right = true;
+			    }
+			    if(evt.keyCode == 40) {
+			        KEYS.Down = true;
+			    }
+			}
+
+			document.addEventListener('keydown', function(evt) {
+				updateKeyDown(canvas, evt)
+			});
+
+			function main() {
+
+				WIDTH = 1024;
+				HEIGHT = 768;
+
+
+				windowScale = Math.max(768 / window.innerHeight, 1024 / window.innerWidth);
+				
+				canvas = document.createElement("canvas");
+				canvas.width = WIDTH;
+				canvas.height = HEIGHT;
+
+				//sumir com o cursor do mouse para colocar um personalizado
+				canvas.style.cursor = "none";
+				cursor = new GameImage("Assets/img/cursor.png", 64, 64, 64, 64, new Vector2D(0, 0), 0);
+				cursor.setAnchorPoint(new Vector2D(-32, -32));
+
+
+				canvas.addEventListener('mousemove', function(evt) {
+				    updateMousePosition(canvas, evt);
+			  	}, false);
+			  	canvas.addEventListener('mousedown', function(evt) {
+				    updateMouseClick(canvas, evt);
+			  	}, false);
+			  	canvas.addEventListener('mouseup', function(evt) {
+				    updateMouseUp(canvas, evt);
+			  	}, false);
+			  	
+
+				CTX = canvas.getContext("2d");
+				document.body.appendChild(canvas);	
+				
+				run()
+			}
+			function run() {
+
+				// timestamp = Date.now() - lastTime;
+				// lastTime = Date.now();
+				// SECS = timestamp / 1000;
+
+				// if (SECS > 0.030) {SECS = 0.030};
+
+				update();
+				draw();
+
+				window.requestAnimationFrame(run)
+			}
+			function update() {
+
+				cursor.getPosition().x = MOUSEPOSITION.x;
+				cursor.getPosition().y = MOUSEPOSITION.y;
+
+				GAME_MANAGER.update();
+
+				MOUSELEFTCLICK = false;
+				MOUSERIGHTCLICK = false;
+				KEYS.Left = false;
+				KEYS.Up = false;
+				KEYS.Right = false;
+				KEYS.Down = false;
+			}
+			function draw() {
+				GAME_MANAGER.draw();
+
+				cursor.draw();
+			}
+
+			//inicializa o jogo
+			main();
+
+		</script>
+	</body>
+</html>

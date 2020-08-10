@@ -1,0 +1,131 @@
+﻿<!doctype html>
+
+<html>
+	<head>
+        <meta charset="UTF-8">
+		<title>Flappy Bee</title>
+
+		<script src="Framework/Vector2D.js"></script>
+		<script src="Framework/GameImage.js"></script>
+		<script src="Framework/GameObject.js"></script>
+		<script src="Framework/GameButton.js"></script>
+		<script src="Framework/GameRectangle.js"></script>
+		<script src="Framework/GameText.js"></script>
+		<script src="Framework/BoundingBox.js"></script>
+		<script src="Framework/SceneManager.js"></script>
+        <script src="Framework/Circle.js"></script>
+		<script src="Framework/GravityEffect.js"></script>
+		
+		<script src="GameScenes/TitleScene.js"></script>
+		<script src="GameScenes/PlayGameScene.js"></script>
+		
+		<script src="GameComponents/GameManager.js"></script>
+		<script src="GameComponents/Player.js"></script>
+		<script src="GameComponents/Box.js"></script>
+		<script src="GameComponents/Obstacle.js"></script>
+        		
+		<style>
+            
+			canvas {
+				position: absolute;
+				top: 0px;
+				bottom: 0px;
+				left: 0px;
+				right: 0px;
+				height: 100%;
+			}
+		</style>
+		
+	</head>
+	<body oncontextmenu="return false;">
+		<script>
+			//variáveis globais
+            var CTX, HEIGHT, WIDTH, SECS = 0.016, MOUSELEFTCLICK = false;
+			var KEYS = {Space: false};
+
+			var GAME_MANAGER = new GameManager();
+			GAME_MANAGER.startScene(SceneManager.GameScene.GAME);
+
+			var windowScale
+
+			lastTime = Date.now();
+			timestamp = 0;
+
+			function updateMouseClick(canvas, evt) {
+			    if (evt.button == 0)
+			        MOUSELEFTCLICK = true;
+			}
+
+		    function updateKeyDown(canvas, evt) {
+		    
+				if(evt.keyCode == 32) {
+			        KEYS.Space = true;
+			    }
+			}
+
+			document.addEventListener('keydown', function(evt) {
+				updateKeyDown(canvas, evt)
+			});
+
+			function main() {
+
+				WIDTH = 1024;
+				HEIGHT = 768;
+
+				windowScale = Math.max(768 / window.innerHeight, 1024 / window.innerWidth);
+				
+				canvas = document.createElement("canvas");
+				canvas.width = WIDTH;
+				canvas.height = HEIGHT;
+
+				canvas.addEventListener('mousedown', function (evt) {
+				    updateMouseClick(canvas, evt);
+				}, false);  
+				CTX = canvas.getContext("2d");
+				document.body.appendChild(canvas);	
+				
+				run()
+			}
+			function run() {
+
+				// timestamp = Date.now() - lastTime;
+				// lastTime = Date.now();
+				// SECS = timestamp / 1000;
+
+				// if (SECS > 0.030) {SECS = 0.030};
+
+				update();
+				draw();
+
+				window.requestAnimationFrame(run)
+			}
+			function update() {
+
+			    GAME_MANAGER.update();
+
+			    MOUSELEFTCLICK = false;
+
+				KEYS.Space = false;
+			}
+			function draw() {
+				GAME_MANAGER.draw();
+			}
+
+			//inicializa o jogo
+			main();
+
+		</script>
+
+
+        <div class="fb-like"
+             data-share="true"
+             data-width="450"
+             data-show-faces="true">
+        </div>
+        <fb:login-button scope="public_profile,user_friends" onlogin="checkLoginState();">
+        </fb:login-button>
+
+        <div id="status">
+        </div>
+	</body>
+</html>
